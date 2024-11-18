@@ -8,7 +8,7 @@ public class BackspaceOperator extends Operator
     public BackspaceOperator(State state) {
         super(state);
     }
-
+    //Test
     //TODO Doit mettre en stack si intermediaire?
     @Override
     public void execute()
