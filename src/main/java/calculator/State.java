@@ -13,6 +13,9 @@ public class State
     private EErrorType errorType = EErrorType.NONE;
 
     private String currentDisplay = "";
+
+    private String storedValue = "";
+
     private boolean isIntermediateValue = false;
 
     //private String intermediateValue = "";
@@ -48,6 +51,23 @@ public class State
         }
         setCurrentDisplay();
         isIntermediateValue = true;
+    }
+
+    public void storeValue()
+    {
+        if(isErrorDisplayed() || digits.isEmpty()) return;
+        storedValue = currentDisplay;
+    }
+
+    public void displayStore()
+    {
+        if(isErrorDisplayed() || storedValue.isEmpty() || storedValue.isBlank()) return;
+        digits.clear();
+        for(char c : storedValue.toCharArray())
+        {
+            digits.add(c);
+        }
+        currentDisplay = storedValue;
     }
 
     public boolean isErrorDisplayed()
