@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Arrays;
 
-
-public class State
-{
+/**
+ * Représente l'état interne de la calculatrice, gérant la pile, l'affichage, les erreurs, et la mémoire.
+ */
+public class State {
     private Stack<String> stack = new Stack<String>();
 
     private ArrayList<Character> digits = new ArrayList<Character>();
@@ -24,8 +25,8 @@ public class State
 
     private boolean isIntermediateValue = false;
 
-    public State()
-    {
+    /** Constructeur */
+    public State() {
         resetDisplay();
     }
 
@@ -33,60 +34,86 @@ public class State
 //║                                                ◆◆◆◆◆◆ DIGITS ◆◆◆◆◆◆                                                ║
 //╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
-    public String getTextValue()
-    {
+    /**
+     * Retourne la valeur numérique actuellement saisie sous forme de texte.
+     * @return la valeur saisie en texte.
+     */
+    public String getTextValue() {
         StringBuilder valueString = new StringBuilder();
-        if(isNegative) valueString.append('-');
-        if(digits.isEmpty()) valueString.append('0');
-        for (Character digit : digits)
-        {
+        if (isNegative) valueString.append('-');
+        if (digits.isEmpty()) valueString.append('0');
+        for (Character digit : digits) {
             valueString.append(digit);
         }
         return valueString.toString();
     }
 
-    public int digitsLength(){
+    /**
+     * Retourne le nombre de chiffres saisis.
+     * @return le nombre de chiffres.
+     */
+    public int digitsLength() {
         return digits.size();
     }
 
-    public boolean isDecimalValue()
-    {
+    /**
+     * Vérifie si la valeur saisie est décimale.
+     * @return true si décimale, false sinon.
+     */
+    public boolean isDecimalValue() {
         return digits.contains('.');
     }
 
-    public char lastInput()
-    {
+    /**
+     * Retourne le dernier caractère saisi.
+     * @return le dernier caractère ou '0' si la liste est vide.
+     */
+    public char lastInput() {
         return digits.isEmpty() ? '0' : digits.getLast();
     }
 
-    public void commitDigit(Character digit)
-    {
-        //if(isIntermediateValue) {addToStack();}
+    /**
+     * Ajoute un chiffre ou un caractère à la saisie actuelle.
+     * @param digit le caractère à ajouter.
+     */
+    public void commitDigit(Character digit) {
         digits.add(digit);
     }
 
-    public boolean isNegative()
-    {
+    /**
+     * Retourne si la valeur actuelle est négative.
+     * @return true si négative, false sinon.
+     */
+    public boolean isNegative() {
         return isNegative;
     }
 
-    public void toggleSign()
-    {
+    /**
+     * Inverse le signe de la valeur actuelle.
+     */
+    public void toggleSign() {
         isNegative = !isNegative;
     }
+
 //╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 //║                                          ◆◆◆◆◆◆ INTERMEDIATE VALUE ◆◆◆◆◆◆                                          ║
 //╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-    public boolean isIntermediateValue()
-    {
+
+    /**
+     * Vérifie si la valeur affichée est intermédiaire.
+     * @return true si intermédiaire, false sinon.
+     */
+    public boolean isIntermediateValue() {
         return isIntermediateValue;
     }
 
-    public void setIntermediateValue(String value)
-    {
+    /**
+     * Définit une valeur intermédiaire et met à jour l'affichage.
+     * @param value la valeur intermédiaire.
+     */
+    public void setIntermediateValue(String value) {
         digits.clear();
-        for(char c : value.toCharArray())
-        {
+        for (char c : value.toCharArray()) {
             digits.add(c);
         }
         isIntermediateValue = true;
@@ -99,21 +126,33 @@ public class State
 //╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
     //use by JCalculator!
-    public Stack<String> getStack(){return stack;}
+    /**
+     * Retourne la pile actuelle.
+     * @return la pile des valeurs sous forme de chaîne.
+     */
+    public Stack<String> getStack() {
+        return stack;
+    }
 
-    public Double popStack()
-    {
+    /**
+     * Retire et retourne la valeur au sommet de la pile.
+     * @return la valeur au sommet ou 0 si la pile est vide.
+     */
+    public Double popStack() {
         return stack.isEmpty() ? 0.0 : Double.parseDouble(stack.pop());
     }
 
-    //MANQUE clear
-    public void resetStack()
-    {
+    /**
+     * Réinitialise la pile.
+     */
+    public void resetStack() {
         stack.clear();
     }
 
-    public void addToStack()
-    {
+    /**
+     * Ajoute la valeur actuelle à la pile après conversion.
+     */
+    public void addToStack() {
         //conversion pour supprimer les 0 inutiles après la virgule
         Double value = Double.parseDouble(getTextValue());
         stack.push(value.toString());
@@ -121,13 +160,18 @@ public class State
         resetDisplay();
     }
 
-    public boolean isDigitEmpty()
-    {
+    /**
+     * Vérifie si la liste des chiffres est vide.
+     * @return true si vide, false sinon.
+     */
+    public boolean isDigitEmpty() {
         return digits.isEmpty();
     }
 
-    public void removeLastDigit()
-    {
+    /**
+     * Supprime le dernier chiffre saisi.
+     */
+    public void removeLastDigit() {
         digits.removeLast();
     }
 
@@ -135,36 +179,45 @@ public class State
 //║                                                 ◆◆◆◆◆◆ ERROR ◆◆◆◆◆◆                                                ║
 //╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
-    public boolean isErrorDisplayed()
-    {
+    /**
+     * Vérifie si une erreur est affichée.
+     * @return true si une erreur est affichée, false sinon.
+     */
+    public boolean isErrorDisplayed() {
         return Arrays.stream(EErrorType.values()).anyMatch(eErrorType -> eErrorType.name().equals(currentDisplay));
     }
 
-    public void setErrorType(EErrorType type)
-    {
+    /**
+     * Définit un type d'erreur et met à jour l'affichage.
+     * @param type le type d'erreur.
+     */
+    public void setErrorType(EErrorType type) {
         errorType = type;
-        if(errorType != EErrorType.NONE)
-        {
+        if (errorType != EErrorType.NONE) {
             currentDisplay = errorType.name();
         }
     }
 
-    private boolean hasSyntaxError()
-    {
+    /**
+     * Vérifie si la syntaxe actuelle contient une erreur.
+     * @return true si une erreur est détectée, false sinon.
+     */
+    private boolean hasSyntaxError() {
         //return digits.stream().filter(c -> c == '.').count() > 1;
         int count = 0;
-        for (char c : digits)
-        {
+        for (char c : digits) {
             count += c == '.' ? 1 : 0;
         }
         return count > 1;
     }
 
-    public boolean checkSyntaxError()
-    {
-        boolean hasSyntaxError = hasSyntaxError();
-        if(hasSyntaxError)
-        {
+    /**
+     * Vérifie si la syntaxe actuelle contient une erreur.
+     * @return true si une erreur est détectée, false sinon.
+     */
+    public boolean checkSyntaxError() {
+        boolean hasSyntaxError = digits.stream().filter(c -> c == '.').count() > 1;
+        if (hasSyntaxError) {
             errorType = EErrorType.SYNTAX_ERROR;
             currentDisplay = EErrorType.SYNTAX_ERROR.name();
         }
@@ -174,18 +227,26 @@ public class State
 //║                                                ◆◆◆◆◆◆ DISPLAY ◆◆◆◆◆◆                                               ║
 //╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
-    public String getCurrentDisplay()
-    {
+    /**
+     * Retourne la valeur actuellement affichée.
+     * @return la valeur affichée sous forme de chaîne.
+     */
+    public String getCurrentDisplay() {
         return currentDisplay;
     }
 
-    public Double getCurrentDisplayValue()
-    {
+    /**
+     * Retourne la valeur actuellement affichée sous forme numérique.
+     * @return la valeur affichée ou 0 si vide.
+     */
+    public Double getCurrentDisplayValue() {
         return currentDisplay.isEmpty() || currentDisplay.isBlank() ? 0 : Double.parseDouble(currentDisplay);
     }
 
-    public void resetDisplay()
-    {
+    /**
+     * Réinitialise l'affichage par défaut.
+     */
+    public void resetDisplay() {
         digits.clear();
         isNegative = false;
         errorType = EErrorType.NONE;
@@ -193,9 +254,11 @@ public class State
         currentDisplay = "0";
     }
 
-    public void updateDisplay()
-    {
-        if(isErrorDisplayed()) return;
+    /**
+     * Met à jour l'affichage avec la valeur actuelle.
+     */
+    public void updateDisplay() {
+        if (isErrorDisplayed()) return;
         currentDisplay = getTextValue();
     }
 
@@ -203,28 +266,36 @@ public class State
 //║                                                 ◆◆◆◆◆◆ STORE ◆◆◆◆◆◆                                                ║
 //╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
-    public void clearMemoryStore()
-    {
+    /**
+     * Efface la valeur stockée en mémoire.
+     */
+    public void clearMemoryStore() {
         storedValue = "";
     }
 
-    public boolean isStoredValueValid()
-    {
+    /**
+     * Vérifie si une valeur est stockée en mémoire.
+     * @return true si aucune valeur valide n'est stockée.
+     */
+    public boolean isStoredValueValid() {
         return storedValue.isEmpty() || storedValue.isBlank();
     }
 
-    public void storeValue()
-    {
-        if(isErrorDisplayed() || digits.isEmpty()) return;
+    /**
+     * Stocke la valeur actuelle en mémoire.
+     */
+    public void storeValue() {
+        if (isErrorDisplayed() || digits.isEmpty()) return;
         storedValue = currentDisplay;
     }
 
-    public void displayStore()
-    {
-        if(isErrorDisplayed() || isStoredValueValid()) return;
+    /**
+     * Affiche la valeur stockée depuis la mémoire.
+     */
+    public void displayStore() {
+        if (isErrorDisplayed() || isStoredValueValid()) return;
         digits.clear();
-        for(char c : storedValue.toCharArray())
-        {
+        for (char c : storedValue.toCharArray()) {
             digits.add(c);
         }
         isIntermediateValue = true;
