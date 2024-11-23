@@ -1,13 +1,16 @@
 package calculator;
 
 import calculator.Controller.*;
+import calculator.Controller.digitOperator.NumberOperator;
+import calculator.Controller.digitOperator.PointOperator;
+import calculator.Controller.digitOperator.ZeroOperator;
+import calculator.Controller.mathOperation.*;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Stack;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,8 +44,8 @@ public class JCalculator extends JFrame
         // Modifier une zone de texte, JTextField.setText(string nom)
         jNumber.setText(state.getCurrentDisplay());
         // Modifier un composant liste, JList.setListData(Object[] tableau)
-        //jStack.setListData(state.getStack().reversed().toArray(new String[0]));
-        jStack.setListData(state.getStack());
+        jStack.setListData(state.getStack().reversed().toArray(new String[0]));
+        //jStack.setListData(state.getStack());
     }
 
     // Ajout d'un bouton dans l'interface et de l'operation associee,
@@ -103,7 +106,7 @@ public class JCalculator extends JFrame
             addOperatorButton(String.valueOf(i), (i - 1) % 3, 4 - (i - 1) / 3, Color.BLUE, numberOp);
         }
         // Bouton 0
-        addOperatorButton("0", 0, 5, Color.BLUE, new NumberOperator(state, 0));
+        addOperatorButton("0", 0, 5, Color.BLUE, new ZeroOperator(state));
 
         // Changement de signe de la valeur courante
         addOperatorButton("+/-", 1, 5, Color.BLUE, new SignOperator(state));
@@ -118,7 +121,7 @@ public class JCalculator extends JFrame
         addOperatorButton("+", 3, 5, Color.RED, new AdditionOperator(state));
 
         // Operateurs arithmetiques a un operande: 1/x, x^2, Sqrt
-        addOperatorButton("1/x", 4, 2, Color.RED, new NegativeOperator(state));
+        addOperatorButton("1/x", 4, 2, Color.RED, new ReciprocalOperator(state));
         addOperatorButton("x^2", 4, 3, Color.RED, new SquareOperator(state));
         addOperatorButton("Sqrt", 4, 4, Color.RED, new SquareRootOperator(state));
 

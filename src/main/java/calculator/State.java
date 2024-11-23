@@ -1,6 +1,12 @@
 package calculator;
 
-import java.util.*;
+//import java.util.*;
+//import calculator.util.*;
+
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Arrays;
+
 
 public class State
 {
@@ -8,7 +14,7 @@ public class State
 
     private ArrayList<Character> digits = new ArrayList<Character>();
 
-    private boolean isNegativ = false;
+    private boolean isNegative = false;
 
     private EErrorType errorType = EErrorType.NONE;
 
@@ -18,25 +24,59 @@ public class State
 
     private boolean isIntermediateValue = false;
 
-    //private String intermediateValue = "";
-
     public State()
     {
         resetDisplay();
     }
 
-    public boolean isNegativ()
+//╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//║                                                ◆◆◆◆◆◆ DIGITS ◆◆◆◆◆◆                                                ║
+//╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+    public String getTextValue()
     {
-        return isNegativ;
+        StringBuilder valueString = new StringBuilder();
+        if(isNegative) valueString.append('-');
+        if(digits.isEmpty()) valueString.append('0');
+        for (Character digit : digits)
+        {
+            valueString.append(digit);
+        }
+        return valueString.toString();
     }
 
-    public void toggleNegative()
-    {
-        if(isErrorDisplayed()) return;
-        isNegativ = !isNegativ;
-        setCurrentDisplay();
+    public int digitsLength(){
+        return digits.size();
     }
 
+    public boolean isDecimalValue()
+    {
+        return digits.contains('.');
+    }
+
+    public char lastInput()
+    {
+        return digits.isEmpty() ? '0' : digits.getLast();
+    }
+
+    public void commitDigit(Character digit)
+    {
+        //if(isIntermediateValue) {addToStack();}
+        digits.add(digit);
+    }
+
+    public boolean isNegative()
+    {
+        return isNegative;
+    }
+
+    public void toggleSign()
+    {
+        isNegative = !isNegative;
+    }
+//╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//║                                          ◆◆◆◆◆◆ INTERMEDIATE VALUE ◆◆◆◆◆◆                                          ║
+//╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     public boolean isIntermediateValue()
     {
         return isIntermediateValue;
@@ -49,26 +89,51 @@ public class State
         {
             digits.add(c);
         }
-        setCurrentDisplay();
         isIntermediateValue = true;
+        isNegative = Double.parseDouble(value) < 0;
+        updateDisplay();
     }
 
-    public void storeValue()
+//╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//║                                                 ◆◆◆◆◆◆ STACK ◆◆◆◆◆◆                                                ║
+//╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+    //use by JCalculator!
+    public Stack<String> getStack(){return stack;}
+
+    public Double popStack()
     {
-        if(isErrorDisplayed() || digits.isEmpty()) return;
-        storedValue = currentDisplay;
+        return stack.isEmpty() ? 0.0 : Double.parseDouble(stack.pop());
     }
 
-    public void displayStore()
+    //MANQUE clear
+    public void resetStack()
     {
-        if(isErrorDisplayed() || storedValue.isEmpty() || storedValue.isBlank()) return;
-        digits.clear();
-        for(char c : storedValue.toCharArray())
-        {
-            digits.add(c);
-        }
-        currentDisplay = storedValue;
+        stack.clear();
     }
+
+    public void addToStack()
+    {
+        //conversion pour supprimer les 0 inutiles après la virgule
+        Double value = Double.parseDouble(getTextValue());
+        stack.push(value.toString());
+        isIntermediateValue = false;
+        resetDisplay();
+    }
+
+    public boolean isDigitEmpty()
+    {
+        return digits.isEmpty();
+    }
+
+    public void removeLastDigit()
+    {
+        digits.removeLast();
+    }
+
+//╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//║                                                 ◆◆◆◆◆◆ ERROR ◆◆◆◆◆◆                                                ║
+//╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
     public boolean isErrorDisplayed()
     {
@@ -84,7 +149,7 @@ public class State
         }
     }
 
-    public boolean hasSyntaxError()
+    private boolean hasSyntaxError()
     {
         //return digits.stream().filter(c -> c == '.').count() > 1;
         int count = 0;
@@ -105,77 +170,64 @@ public class State
         }
         return hasSyntaxError;
     }
-
-    public Stack<String> getStack()
-    {
-        return stack;
-    }
-
-    public Double popStack()
-    {
-        return stack.isEmpty() ? 0.0 : Double.parseDouble(stack.pop());
-    }
-
-    public void resetStack()
-    {
-        stack.clear();
-    }
-
-    public ArrayList<Character> getDigits()
-    {
-        return digits;
-    }
-
-    public String getTextValue()
-    {
-        StringBuilder valueString = new StringBuilder();
-        if(isNegativ) valueString.append('-');
-        if(digits.isEmpty()) valueString.append('0');
-        for (Character digit : digits)
-        {
-            valueString.append(digit);
-        }
-        return valueString.toString();
-    }
-
-    public void commitDigit(Character digit)
-    {
-        if(isErrorDisplayed()) return;
-        if(isIntermediateValue)
-        {
-            addToStack();
-        }
-        digits.add(digit);
-        setCurrentDisplay();
-    }
-
-    public void addToStack()
-    {
-        if(!checkSyntaxError())
-        {
-            stack.push(getTextValue());
-            isIntermediateValue = false;
-            resetDisplay();
-        }
-    }
+//╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//║                                                ◆◆◆◆◆◆ DISPLAY ◆◆◆◆◆◆                                               ║
+//╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
     public String getCurrentDisplay()
     {
         return currentDisplay;
     }
 
+    public Double getCurrentDisplayValue()
+    {
+        return currentDisplay.isEmpty() || currentDisplay.isBlank() ? 0 : Double.parseDouble(currentDisplay);
+    }
+
     public void resetDisplay()
     {
         digits.clear();
-        isNegativ = false;
+        isNegative = false;
         errorType = EErrorType.NONE;
         isIntermediateValue = false;
         currentDisplay = "0";
     }
 
-    public void setCurrentDisplay()
+    public void updateDisplay()
     {
         if(isErrorDisplayed()) return;
         currentDisplay = getTextValue();
+    }
+
+//╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//║                                                 ◆◆◆◆◆◆ STORE ◆◆◆◆◆◆                                                ║
+//╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+    public void clearMemoryStore()
+    {
+        storedValue = "";
+    }
+
+    public boolean isStoredValueValid()
+    {
+        return storedValue.isEmpty() || storedValue.isBlank();
+    }
+
+    public void storeValue()
+    {
+        if(isErrorDisplayed() || digits.isEmpty()) return;
+        storedValue = currentDisplay;
+    }
+
+    public void displayStore()
+    {
+        if(isErrorDisplayed() || isStoredValueValid()) return;
+        digits.clear();
+        for(char c : storedValue.toCharArray())
+        {
+            digits.add(c);
+        }
+        isIntermediateValue = true;
+        currentDisplay = storedValue;
     }
 }
