@@ -3,8 +3,9 @@ package calculator;
 //import java.util.*;
 //import calculator.util.*;
 
+import util.Stack;
+
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.Arrays;
 
 /**

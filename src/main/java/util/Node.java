@@ -38,7 +38,7 @@ public class Node<T> {
             originalCurrent = originalCurrent.next();
         }
         return clonedNode;
-}
+    }
 
     public boolean isEmpty() {
         return (this.value() == null && this.next() == null);

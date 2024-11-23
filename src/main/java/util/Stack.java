@@ -4,18 +4,17 @@ public class Stack<T> {
     Node head = new Node();
 
     public Stack() {
-        head = new Node();
-        head.setNext(null);
+        head = null;
     }
 
     public Stack(T val) {
-        this();
+        head = new Node();
         head.setValue(val);
     }
 
     // Empiler un objet sur le sommet de la pile
     public void push(T val) {
-        Node newNode = new Node(val);
+         Node newNode = new Node(val);
         if (isEmpty()) {
             head = newNode;
         } else {
@@ -25,18 +24,24 @@ public class Stack<T> {
     }
 
     // Désempiler un objet du sommet de la pile
-    public void pop() {
-        if (isEmpty())
-            System.err.println("Stack is empty");
+    public T pop() {
+        if (isEmpty()) {
+            return null;
+        }
 
         Node nextNode = head;
+        Node previousNode = null;
         while (nextNode.hasNext()) {
-            if (!nextNode.next().hasNext()) {
-                nextNode.setNext(null);
-                return;
-            }
+            previousNode = nextNode;
             nextNode = nextNode.next();
         }
+
+        if (previousNode == null) {
+            head = null;
+        } else {
+            previousNode.setNext(null);
+        }
+        return (T)nextNode.value();
     }
 
     // Get the value of the top element of the stack
@@ -53,11 +58,11 @@ public class Stack<T> {
     }
 
     public boolean isEmpty() {
-        return (head.value() == null && head.next() == null);
+        return (head == null || head.value() == null);
     }
 
     public int size() {
-        if (this == null)
+        if (this == null || head == null)
             return 0;
 
         int size = 1;
@@ -88,9 +93,7 @@ public class Stack<T> {
     }
 
     public void clear() {
-        while(!isEmpty()) {
-            pop();
-        }
+        head = null;
     }
 
     // Obtenir un itérateur sur la pile offrant les opérations T next() et boolean hasNext().
