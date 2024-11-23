@@ -39,36 +39,4 @@ public class Node<T> {
         }
         return clonedNode;
     }
-
-    public boolean isEmpty() {
-        return (this.value() == null && this.next() == null);
-    }
-
-    // Désempiler un objet du sommet de la pile
-    public void pop() {
-        if (isEmpty())
-            System.err.println("Stack is empty");
-
-        Node nextNode = this;
-        while (nextNode.hasNext()) {
-            if (!nextNode.next().hasNext()) {
-                nextNode.setNext(null);
-                return;
-            }
-            nextNode = nextNode.next();
-        }
-    }
-
-    // Get the value of the top element of the stack
-    public Node top() {
-        if (isEmpty()) {
-            return null;
-        }
-
-        Node nextNode = this;
-        while (nextNode.hasNext()) {
-            nextNode = nextNode.next();
-        }
-        return nextNode;
-    }
 }
