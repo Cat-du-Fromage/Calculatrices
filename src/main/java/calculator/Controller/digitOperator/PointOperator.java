@@ -8,7 +8,6 @@ import calculator.State;
 public class PointOperator extends DigitOperator {
     /**
      * Initialise l'opérateur avec un état et le caractère '.' pour le point décimal.
-     *
      * @param state l'état courant de la calculatrice.
      */
     public PointOperator(State state) {

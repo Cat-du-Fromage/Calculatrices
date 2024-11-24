@@ -15,7 +15,6 @@ public class DigitOperator extends Operator {
 
     /**
      * Initialise l'opérateur avec un état et une valeur donnée.
-     *
      * @param state l'état courant de la calculatrice.
      * @param value le caractère à ajouter.
      */
@@ -27,7 +26,6 @@ public class DigitOperator extends Operator {
     /**
      * Vérifie si l'ajout d'un chiffre est valide avant de le valider.
      * Ajoute les valeurs intermédiaires à la pile si nécessaire.
-     *
      * @return true si l'ajout peut être effectué, false sinon.
      */
     protected boolean checkBeforeCommit() {

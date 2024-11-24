@@ -8,7 +8,6 @@ import calculator.State;
 public class NumberOperator extends DigitOperator {
     /**
      * Initialise l'opérateur avec un état et une valeur entière.
-     *
      * @param state l'état courant de la calculatrice.
      * @param value l'entier à ajouter à l'affichage (entre 0 et 9 inclus).
      */
