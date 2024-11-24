@@ -1,18 +1,30 @@
+// Auteur: Changanaqui Yoann & Duruz Florian
 package util;
 
 public class Stack<T> {
-    Node<T> head = new Node();
+    Node<T> head = new Node(); // The head of the stack
 
+    /*
+     * Constructor of the class Stack
+     */
     public Stack() {
         head = null;
     }
 
+    /*
+     * Constructor of the class Stack
+     * @param val the value of the first node of the stack
+     */
     public Stack(T val) {
         head = new Node();
         head.setValue(val);
     }
 
-    // Empiler un objet sur le sommet de la pile
+    
+    /* 
+     * Empiler un objet dans la pile
+     * @param val l’objet à empiler
+    */
     public void push(T val) {
          Node newNode = new Node(val);
         if (isEmpty()) {
@@ -23,7 +35,10 @@ public class Stack<T> {
         }
     }
 
-    // Désempiler un objet du sommet de la pile
+    /*
+     * Dépiler l’objet situé au sommet de la pile
+     * @return la valeur de l’objet situé au sommet de la pile
+     */
     public T pop() {
         if (isEmpty()) {
             return null;
@@ -44,7 +59,10 @@ public class Stack<T> {
         return (T)nextNode.value();
     }
 
-    // Get the value of the top element of the stack
+    /*
+     * Obtenir l’objet situé au sommet de la pile
+     * @return l’objet situé au sommet de la pile
+     */
     public Node top() {
         if (isEmpty()) {
             return null;
@@ -61,6 +79,10 @@ public class Stack<T> {
         return (head == null || head.value() == null);
     }
 
+    /*
+     * Get the size of the stack
+     * @return the size of the stack
+     */
     public int size() {
         if (this == null || head == null)
             return 0;
@@ -75,8 +97,10 @@ public class Stack<T> {
         return size;
     }
 
-    //  Obtenir un tableau d’objets représentant l’état actuel de la pile (l’indice 0 contenant l’élément placé au
-    // sommet de la pile)
+    /*
+     * Get an array of objects representing the current state of the stack
+     * @return un tableau d’objets représentant l’état actuel de la pile (l’indice 0 contenant l’élément placé au sommet de la pile)
+     */
     public Object[] toArray() {
         if (isEmpty()) {
             return new Object[0];
@@ -92,12 +116,18 @@ public class Stack<T> {
         return res;
     }
 
+    /*
+     * Vider la pile
+     * @return void
+     */
     public void clear() {
         head = null;
     }
 
-    // Obtenir un itérateur sur la pile offrant les opérations T next() et boolean hasNext().
-    // Obtenir la représentation sous la forme de chaîne de caractères du contenu de la pile
+    /*
+     * Représentation sous forme de chaîne de caractères du contenu de la pile
+     * @return la représentation sous la forme de chaîne de caractères du contenu de la pile
+     */
     @Override
     public String toString() {
         if (isEmpty()) {
