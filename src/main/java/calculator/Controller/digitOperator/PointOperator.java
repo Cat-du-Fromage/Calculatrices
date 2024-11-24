@@ -1,44 +1,28 @@
 package calculator.Controller.digitOperator;
+
 import calculator.State;
 
-public class PointOperator extends DigitOperator
-{
-    //private Character operator = '.';
-
-    public PointOperator(State state)
-    {
-        super(state,'.');
+/**
+ * Représente une opération pour ajouter un point décimal à l'affichage.
+ */
+public class PointOperator extends DigitOperator {
+    /**
+     * Initialise l'opérateur avec un état et le caractère '.' pour le point décimal.
+     *
+     * @param state l'état courant de la calculatrice.
+     */
+    public PointOperator(State state) {
+        super(state, '.');
     }
 
+    /**
+     * Redéfinition: Ajoute un zéro avant le point si l'affichage est vide, puis ajoute le point.
+     */
     @Override
-    protected void commitDigit()
-    {
-        if(state.isDigitEmpty())
-        {
+    protected void commitDigit() {
+        if (state.isDigitEmpty()) {
             state.commitDigit('0');
         }
         super.commitDigit();
     }
-
-    /*
-    @Override
-    public void execute()
-    {
-        if(state.isErrorDisplayed()) return;
-        //ajoute '0' pour éviter un '.' seul
-        if(state.isIntermediateValue())
-        {
-            state.addToStack();
-            //state.commitDigit('0');
-        }
-
-        if(state.isDigitEmpty())
-        {
-            state.commitDigit('0');
-        }
-
-        state.commitDigit(operator);
-        state.updateDisplay();
-    }
-    */
 }

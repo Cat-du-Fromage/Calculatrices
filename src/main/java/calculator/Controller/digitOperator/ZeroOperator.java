@@ -1,42 +1,34 @@
 package calculator.Controller.digitOperator;
+
 import calculator.State;
 
-public class ZeroOperator extends DigitOperator
-{
-    public ZeroOperator(State state)
-    {
+/**
+ * Représente l'opérateur pour l'ajout d'un zéro à l'affichage.
+ */
+public class ZeroOperator extends DigitOperator {
+    /**
+     * Initialise l'opérateur avec un état et le caractère '0' pour le zéro.
+     * @param state l'état courant de la calculatrice.
+     */
+    public ZeroOperator(State state) {
         super(state, '0');
     }
 
     /**
-     * Vérifie que on ne met pas une suite de zéro avant un chiffre
-     * @return suite de 0
+     * Vérifie si un zéro est ajouté inutilement en début de valeur non décimale.
+     * @return true si un zéro est présent en début de valeur non valide, sinon false.
      */
-    private boolean hasZeroTrail()
-    {
+    private boolean hasZeroTrail() {
         return state.digitsLength() < 2 && state.lastInput() == '0' && !state.isDecimalValue();
     }
 
+    /**
+     * Redéfinition: Vérifie les conditions avant d'ajouter le zéro.
+     * @return true si l'ajout est valide, sinon false.
+     */
     @Override
-    protected boolean checkBeforeCommit()
-    {
+    protected boolean checkBeforeCommit() {
         return super.checkBeforeCommit() && !hasZeroTrail();
     }
-
-/*
-    @Override
-    public void execute()
-    {
-        if(state.isErrorDisplayed()) return;
-        if(state.isIntermediateValue())
-        {
-            state.addToStack();
-        }
-        //empêche une suite de zéro avant la virgule
-        if(hasZeroTrail()) return;
-        state.commitDigit(value);
-        state.updateDisplay();
-    }
-    */
 
 }

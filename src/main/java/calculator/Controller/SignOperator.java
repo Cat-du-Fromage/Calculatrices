@@ -22,7 +22,7 @@ public class SignOperator extends Operator {
      */
     @Override
     public void execute() {
-        if(state.isErrorDisplayed()) return;
+        if(state.isErrorDisplayed() || state.isIntermediateValue()) return;
         state.toggleSign();
         state.updateDisplay();
     }
