@@ -10,7 +10,6 @@ public class Main
 {
     public static void main(String[] args)
     {
-        System.out.println("Hello, World!");
         testZeroBeforeDecimal();
         testMultiplePointsTriggerSyntaxError();
         testDivisionByZeroError();
@@ -26,7 +25,7 @@ public class Main
      * Test pour vérifier qu'une suite de zéros n'est pas ajoutée avant un chiffre.
      * Par exemple, "03" ne doit pas être accepté.
      */
-    public static void testZeroBeforeDecimal() {
+    private static void testZeroBeforeDecimal() {
         State state = new State();
 
         // Ajout d'un premier zéro.
@@ -50,7 +49,7 @@ public class Main
      * Test pour vérifier qu'ajouter plusieurs points déclenche une erreur "Syntax_Error"
      * lorsqu'on tente de mettre la valeur en stack via EnterOperator.
      */
-    public static void testMultiplePointsTriggerSyntaxError() {
+    private static void testMultiplePointsTriggerSyntaxError() {
         State state = new State();
 
         // Ajout d'un chiffre initial (exemple : 1).
@@ -84,7 +83,7 @@ public class Main
      * Test pour vérifier que les divisions et l'opération réciproque déclenchent une erreur "DIVIDE_BY_ZERO"
      * lorsque le dénominateur est égal à 0.
      */
-    public static void testDivisionByZeroError() {
+    private static void testDivisionByZeroError() {
         State state = new State();
 
         // Ajout d'une valeur au numérateur (exemple : 10).
@@ -124,7 +123,7 @@ public class Main
      * Test pour vérifier que l'opération racine carrée (SquareRootOperator) déclenche une erreur "DOMAIN_ERROR"
      * lorsque l'entrée est une valeur négative.
      */
-    public static void testSquareRootDomainError() {
+    private static void testSquareRootDomainError() {
         State state = new State();
 
         // Ajout d'une valeur négative.
