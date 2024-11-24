@@ -1,7 +1,7 @@
 package util;
 
 public class Stack<T> {
-    Node head = new Node();
+    Node<T> head = new Node();
 
     public Stack() {
         head = null;
