@@ -203,19 +203,6 @@ public class State {
      * Vérifie si la syntaxe actuelle contient une erreur.
      * @return true si une erreur est détectée, false sinon.
      */
-    private boolean hasSyntaxError() {
-        //return digits.stream().filter(c -> c == '.').count() > 1;
-        int count = 0;
-        for (char c : digits) {
-            count += c == '.' ? 1 : 0;
-        }
-        return count > 1;
-    }
-
-    /**
-     * Vérifie si la syntaxe actuelle contient une erreur.
-     * @return true si une erreur est détectée, false sinon.
-     */
     public boolean checkSyntaxError() {
         boolean hasSyntaxError = digits.stream().filter(c -> c == '.').count() > 1;
         if (hasSyntaxError) {
